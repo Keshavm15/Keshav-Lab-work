@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>Web Devlopment LAB WORK</title>
+  <style>
+    /* Dark Theme Base Styles */
+    :root {
+      --primary: #6c5ce7;
+      --primary-dark: #5649c0;
+      --secondary: #00cec9;
+      --dark-bg: #1a1a2e;
+      --darker-bg: #16213e;
+      --card-bg: #0f3460;
+      --text: #e6e6e6;
+      --text-light: #f1f1f1;
+      --text-muted: #b8b8b8;
+      --success: #00b894;
+      --danger: #d63031;
+      --border-radius: 12px;
+      --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--dark-bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 2rem 1rem;
+      min-height: 100vh;
+    }
+    
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--primary);
+      text-align: center;
+      margin-bottom: 2.5rem;
+      letter-spacing: 1px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+      gap: 1.5rem;
+      justify-content: center;
+    }
+    
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--border-radius);
+      padding: 1.5rem;
+      box-shadow: var(--box-shadow);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+    }
+    
+    .card h2 {
+      font-size: 1.4rem;
+      margin-bottom: 1.2rem;
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    /* Section 1 - Toggle Box */
+    #section1 {
+      background: var(--primary);
+      color: white;
+      font-weight: 700;
+      font-size: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 120px;
+      transition: background 0.4s ease;
+    }
+    
+    #section1.green {
+      background: var(--success);
+    }
+    
+    /* Form Elements */
+    input, select, textarea {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 0.5rem 0 1rem;
+      border: none;
+      border-radius: var(--border-radius);
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text);
+      font-size: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.3);
+      background: rgba(255, 255, 255, 0.15);
+    }
+    
+    input[type="range"] {
+      padding: 0;
+      height: 8px;
+      -webkit-appearance: none;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+    }
+    
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+    }
+    
+    label {
+      display: block;
+      font-weight: 500;
+      margin-top: 0.5rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+    
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    
+    button:hover {
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+    
+    button:active {
+      transform: translateY(0);
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+    
+    /* Output Styles */
+    .output {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: var(--border-radius);
+      padding: 1rem;
+      margin-top: 1rem;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      white-space: pre-wrap;
+      overflow-x: auto;
+      max-height: 200px;
+      overflow-y: auto;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    /* Color Mixer */
+    .color-value {
+      font-weight: 600;
+      color: var(--secondary);
+    }
+    
+    #colorBox {
+      height: 80px;
+      border-radius: var(--border-radius);
+      margin-top: 1rem;
+      border: 2px solid var(--primary);
+      transition: background 0.2s ease;
+    }
+    
+    /* Clock Styles */
+    #clock {
+      font-family: 'Fira Code', monospace;
+      font-size: 2.2rem;
+      font-weight: 700;
+      text-align: center;
+      margin: 1rem 0;
+      color: var(--secondary);
+      letter-spacing: 2px;
+    }
+    
+    /* Bulb Styles */
+    #bulbImage {
+      display: block;
+      margin: 0 auto 1rem;
+      max-width: 100px;
+      filter: drop-shadow(0 0 8px rgba(0, 206, 201, 0.3));
+    }
+    
+    /* Responsive Adjustments */
+    @media (max-width: 1000px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .card {
+        padding: 1.2rem;
+      }
+      
+      .card h2 {
+        font-size: 1.2rem;
+      }
+      
+      button {
+        padding: 0.7rem 1.2rem;
+      }
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h1>Web Devlopment LAB WORK</h1>
+    
+    <div class="grid">
+      <!-- Section 1: Blue box toggle to green -->
+      <div class="card" id="section1" onclick="toggleBlueGreen()" tabindex="0" role="button" aria-pressed="false">
+        Click me to toggle color
+      </div>
+
+      <!-- Section 2: Grade Calculator -->
+      <div class="card">
+        <h2>Grade Calculator</h2>
+        <input type="number" id="grade-marks" placeholder="Enter marks (0-100)" min="0" max="100" />
+        <button onclick="calculateGrade()">Calculate</button>
+        <div id="grade-output" class="output"></div>
+      </div>
+
+      <!-- Section 3: JavaScript Operators -->
+      <div class="card">
+        <h2>JavaScript Operators</h2>
+        <button onclick="performOperations()">Run Activity</button>
+        <div id="operators-output" class="output" tabindex="0"></div>
+      </div>
+
+      <!-- Section 4: Variables & Data Types -->
+      <div class="card">
+        <h2>Variables & Data Types</h2>
+        <label for="name-input">Your Name:</label>
+        <input type="text" id="name-input" placeholder="Enter your name" />
+        <label for="number-input">Enter a Number:</label>
+        <input type="number" id="number-input" placeholder="Enter a number" />
+        <button onclick="displayValues()">Submit</button>
+        <div id="variables-output" class="output" tabindex="0"></div>
+      </div>
+
+      <!-- Section 5: Multiplication Table -->
+      <div class="card">
+        <h2>Multiplication Table</h2>
+        <input type="number" id="table-num" placeholder="Enter a number" />
+        <button onclick="generateTable()">Generate Table</button>
+        <div id="table-output" class="output" tabindex="0"></div>
+      </div>
+
+      <!-- Section 6: Welcome Alert Box -->
+      <div class="card">
+        <h2>Welcome Alert</h2>
+        <button onclick="showWelcomeAlert()">Show Welcome Alert</button>
+      </div>
+
+      <!-- Section 7: Loop Activities -->
+      <div class="card">
+        <h2>Loop Activities & Even/Odd</h2>
+        <label for="even-odd-input">Enter Number:</label>
+        <input type="number" id="even-odd-input" placeholder="Enter a number" />
+        <button onclick="handleLoopActivities()">Run Activities</button>
+        <div id="loop-output" class="output" tabindex="0"></div>
+      </div>
+
+      <!-- Section 8: Dynamic Color Mixer -->
+      <div class="card">
+        <h2>🎨 Dynamic Color Mixer</h2>
+        <label for="red">Red: <span id="redValue" class="color-value">0</span></label>
+        <input type="range" id="red" min="0" max="255" value="0" oninput="updateColor()" />
+        <label for="green">Green: <span id="greenValue" class="color-value">0</span></label>
+        <input type="range" id="green" min="0" max="255" value="0" oninput="updateColor()" />
+        <label for="blue">Blue: <span id="blueValue" class="color-value">0</span></label>
+        <input type="range" id="blue" min="0" max="255" value="0" oninput="updateColor()" />
+        <div id="colorBox"></div>
+      </div>
+
+      <!-- Section 9: Additional JS Tasks -->
+      <div class="card">
+        <h2>JS Functions: Square, Even/Odd</h2>
+        <label for="num">Enter a Number:</label>
+        <input type="number" id="num" placeholder="Enter a number" />
+        <div class="button-group">
+          <button onclick="calculateSquare()">Square</button>
+          <button onclick="checkEvenOdd()">Even/Odd</button>
+        </div>
+        <div id="output" class="output" tabindex="0"></div>
+      </div>
+
+      <!-- Section 10: Simple Calculator -->
+      <div class="card">
+        <h2>Simple Calculator</h2>
+        <label for="calc-num1">Number 1:</label>
+        <input type="number" id="calc-num1" placeholder="First number" />
+        <label for="calc-num2">Number 2:</label>
+        <input type="number" id="calc-num2" placeholder="Second number" />
+        <label for="calc-operation">Operation:</label>
+        <select id="calc-operation">
+          <option value="add">Add (+)</option>
+          <option value="subtract">Subtract (-)</option>
+          <option value="multiply">Multiply (×)</option>
+          <option value="divide">Divide (÷)</option>
+        </select>
+        <button onclick="calculateSimple()">Calculate</button>
+        <div id="calc-output" class="output" tabindex="0"></div>
+      </div>
+
+      <!-- Section 11: Light Bulb Toggle -->
+      <div class="card">
+        <h2>💡 Light Bulb Toggle</h2>
+        <img id="bulbImage" src="https://www.w3schools.com/js/pic_bulboff.gif" alt="Light Bulb" />
+        <button id="toggleButton">Turn ON</button>
+      </div>
+
+      <!-- Section 12: Real-Time Clock -->
+      <div class="card">
+        <h2>⏰ Real-Time Clock</h2>
+        <div id="clock">00:00:00</div>
+        <button id="toggleClock">Start Clock</button>
+      </div>
+
+      <!-- Section 13: Saved Note -->
+      <div class="card">
+        <h2>📝 Saved Note</h2>
+        <textarea id="noteInput" placeholder="Write your note here..." rows="3"></textarea>
+        <div class="button-group">
+          <button onclick="saveNote()">Save</button>
+          <button onclick="clearNote()">Clear</button>
+        </div>
+        <div id="displayNote" class="output"></div>
+      </div>
+
+      <!-- Section 14: Welcome Message -->
+      <div class="card">
+        <h2>👋 Welcome Message</h2>
+        <input type="text" id="userName" placeholder="Enter your name" />
+        <button onclick="storeName()">Submit</button>
+        <div id="welcomeMessage" class="output"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // All your existing JavaScript functions remain exactly the same
+    function toggleBlueGreen() {
+      const box = document.getElementById('section1');
+      const isGreen = box.classList.toggle('green');
+      box.setAttribute('aria-pressed', isGreen);
+    }
+    document.getElementById('section1').addEventListener('keydown', function(e){
+      if(e.key === "Enter" || e.key === " "){
+        e.preventDefault();
+        toggleBlueGreen();
+      }
+    });
+
+    function calculateGrade() {
+      let marks = Number(document.getElementById('grade-marks').value);
+      const output = document.getElementById('grade-output');
+      if(Number.isNaN(marks) || marks < 0 || marks > 100) {
+        output.textContent = 'Please enter a valid marks number between 0 and 100.';
+        return;
+      }
+      let grade;
+      if (marks >= 90) grade = "A+";
+      else if (marks >= 80) grade = "A";
+      else if (marks >= 70) grade = "B";
+      else if (marks >= 60) grade = "C";
+      else if (marks >= 50) grade = "D";
+      else grade = "F (Fail)";
+      output.textContent = `Grade: ${grade}`;
+    }
+
+    function performOperations() {
+      let a = 8;
+      let b = 3;
+      let addition = a + b;
+      let subtraction = a - b;
+      let multiplication = a * b;
+      let division = (a / b).toFixed(2);
+      let modulus = a % b;
+      let isGreater = a > b;
+      let logicalCheck = (a > 5 && b < 10);
+      let outputText = 
+        `Results:\n` +
+        `Addition (a + b) = ${addition}\n` +
+        `Subtraction (a - b) = ${subtraction}\n` +
+        `Multiplication (a * b) = ${multiplication}\n` +
+        `Division (a / b) = ${division}\n` +
+        `Modulus (a % b) = ${modulus}\n\n` +
+        `Is 'a' greater than 'b'? ${isGreater}\n` +
+        `Logical AND (a > 5 && b < 10): ${logicalCheck}`;
+      document.getElementById('operators-output').textContent = outputText;
+      document.getElementById('operators-output').focus();
+    }
+
+    function displayValues() {
+      const name = document.getElementById('name-input').value.trim();
+      const number = Number(document.getElementById('number-input').value);
+      const output = document.getElementById('variables-output');
+      if(!name) {
+        output.textContent = 'Please enter your name.';
+        return;
+      }
+      if(Number.isNaN(number)) {
+        output.textContent = 'Please enter a valid number.';
+        return;
+      }
+      output.textContent = `Hello, ${name}! You entered the number: ${number}`;
+      output.focus();
+    }
+
+    function generateTable() {
+      const num = Number(document.getElementById('table-num').value);
+      const output = document.getElementById('table-output');
+      if(Number.isNaN(num)) {
+        output.textContent = 'Please enter a valid number.';
+        return;
+      }
+      let table = `Multiplication Table for ${num}:\n`;
+      for(let i=1; i<=10; i++) {
+        table += `${num} × ${i} = ${num * i}\n`;
+      }
+      output.textContent = table;
+      output.focus();
+    }
+
+    function showWelcomeAlert() {
+      alert('Welcome!');
+    }
+
+    function handleLoopActivities() {
+      const num = Number(document.getElementById('even-odd-input').value);
+      const outputDiv = document.getElementById('loop-output');
+      if (Number.isNaN(num)) {
+        outputDiv.textContent = "Please enter a valid number.";
+        outputDiv.focus();
+        return;
+      }
+      let evenOdd = (num % 2 === 0) ? "even" : "odd";
+      let numbersOneToTen = "Numbers from 1 to 10 (for loop):\n";
+      for(let i=1; i<=10; i++) {
+        numbersOneToTen += i + " ";
+      }
+      numbersOneToTen = numbersOneToTen.trim() + "\n";
+      let countdown = "Countdown from 5 to 1 (while loop):\n";
+      let count = 5;
+      while(count > 0) {
+        countdown += count + " ";
+        count--;
+      }
+      countdown = countdown.trim() + "\n";
+      let fullOutput = `Number ${num} is ${evenOdd}.\n\n` + numbersOneToTen + countdown;
+      outputDiv.textContent = fullOutput;
+      outputDiv.focus();
+    }
+
+    function updateColor() {
+      let red = document.getElementById("red").value;
+      let green = document.getElementById("green").value;
+      let blue = document.getElementById("blue").value;
+      document.getElementById("redValue").innerText = red;
+      document.getElementById("greenValue").innerText = green;
+      document.getElementById("blueValue").innerText = blue;
+      let rgbColor = `rgb(${red}, ${green}, ${blue})`;
+      document.getElementById("colorBox").style.backgroundColor = rgbColor;
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      updateColor();
+
+      // Light Bulb Toggle
+      const bulbImage = document.getElementById("bulbImage");
+      const toggleButton = document.getElementById("toggleButton");
+      if(bulbImage && toggleButton) {
+        toggleButton.addEventListener("click", function() {
+          if (bulbImage.src.includes("pic_bulboff.gif")) {
+            bulbImage.src = "https://www.w3schools.com/js/pic_bulbon.gif";
+            toggleButton.textContent = "Turn OFF";
+          } else {
+            bulbImage.src = "https://www.w3schools.com/js/pic_bulboff.gif";
+            toggleButton.textContent = "Turn ON";
+          }
+        });
+      }
+
+      // Digital Clock
+      let clockInterval;
+      let isRunning = false;
+
+      function updateClock() {
+        let now = new Date();
+        let hours = String(now.getHours()).padStart(2, "0");
+        let minutes = String(now.getMinutes()).padStart(2, "0");
+        let seconds = String(now.getSeconds()).padStart(2, "0");
+        document.getElementById("clock").innerHTML = `${hours}:${minutes}:${seconds}`;
+      }
+
+      const toggleClockBtn = document.getElementById("toggleClock");
+      if(toggleClockBtn) {
+        toggleClockBtn.addEventListener("click", function() {
+          if (!isRunning) {
+            clockInterval = setInterval(updateClock, 1000);
+            this.textContent = "Stop Clock";
+            updateClock();
+          } else {
+            clearInterval(clockInterval);
+            this.textContent = "Start Clock";
+          }
+          isRunning = !isRunning;
+        });
+      }
+    });
+
+    function calculateSquare() {
+      let num = document.getElementById("num").value;
+      if(num === '') {
+        document.getElementById("output").innerHTML = 'Please enter a number.';
+        return;
+      }
+      let square = num * num;
+      document.getElementById("output").innerHTML = `Square of ${num} is ${square}`;
+    }
+
+    function checkEvenOdd() {
+      let num = document.getElementById("num").value;
+      if(num === '') {
+        document.getElementById("output").innerHTML = 'Please enter a number.';
+        return;
+      }
+      let result = (num % 2 === 0) ? "Even" : "Odd";
+      document.getElementById("output").innerHTML = `${num} is ${result}`;
+    }
+
+    function calculateSimple() {
+      const num1 = parseFloat(document.getElementById('calc-num1').value);
+      const num2 = parseFloat(document.getElementById('calc-num2').value);
+      const operation = document.getElementById('calc-operation').value;
+      const output = document.getElementById('calc-output');
+
+      if (isNaN(num1) || isNaN(num2)) {
+        output.textContent = 'Please enter valid numbers for both inputs.';
+        return;
+      }
+
+      let result;
+      switch(operation) {
+        case 'add':
+          result = num1 + num2;
+          break;
+        case 'subtract':
+          result = num1 - num2;
+          break;
+        case 'multiply':
+          result = num1 * num2;
+          break;
+        case 'divide':
+          if (num2 === 0) {
+            output.textContent = 'Error: Cannot divide by zero.';
+            return;
+          }
+          result = num1 / num2;
+          break;
+        default:
+          output.textContent = 'Invalid operation selected.';
+          return;
+      }
+      output.textContent = `Result: ${result}`;
+      output.focus();
+    }
+
+    window.onload = function() {
+      displayNote();
+    };
+
+    function saveNote() {
+      const note = document.getElementById("noteInput").value;
+      localStorage.setItem("savedNote", note);
+      displayNote();
+    }
+
+    function clearNote() {
+      localStorage.removeItem("savedNote");
+      displayNote();
+    }
+
+    function displayNote() {
+      const saved = localStorage.getItem("savedNote");
+      const display = document.getElementById("displayNote");
+      if (saved && saved.trim() !== "") {
+        display.innerHTML = `<strong>Your Saved Note:</strong><br>${saved}`;
+      } else {
+        display.innerHTML = "No note saved yet.";
+      }
+    }
+
+    function storeName() {
+      const name = document.getElementById("userName").value.trim();
+      const messageDiv = document.getElementById("welcomeMessage");
+      if (name) {
+        messageDiv.textContent = `Welcome, ${name}!`;
+      } else {
+        messageDiv.textContent = "Please enter your name.";
+      }
+    }
+  </script>
+</body>
+</html>
